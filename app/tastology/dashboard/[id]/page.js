@@ -1,22 +1,23 @@
-async function getUsers() {
-    const res = await fetch('http://localhost:3000/api/user', { cache: 'no-store' });
-    return res.json();
-  }
+export default async function DashboardPage({ params }) {
+    const res = await fetch('http://localhost:3000/api/user', {
+      cache: 'no-store',
+    });
+    const users = await res.json();
+    const user = users.find((u) => Number(u.id) === Number(params.id));
   
-  export default async function dashboardPage() {
-    const users = await getUsers();
+    if (!user) {
+      return (
+        <main className="p-6">
+          <h1 className="text-2xl font-bold text-red-600">User not found</h1>
+        </main>
+      );
+    }
   
     return (
-      <main>
-        <h1>all users</h1>
-        <ul>
-          {users.map((u) => (
-            <li key={u.id}>
-              <strong>{u.username}</strong> ({u.email})<br />
-              <img src={u.avatar_url} alt={u.username} width={50} height={50} />
-            </li>
-          ))}
-        </ul>
+      <main className="p-6">
+        <h1 className="text-3xl font-bold">{user.username}</h1>
+        <p className="text-lg text-gray-700">{user.email}</p>
+        <img src={user.avatar_url} alt="Avatar" className="w-32 h-32 rounded-full mt-4" />
       </main>
     );
   }
