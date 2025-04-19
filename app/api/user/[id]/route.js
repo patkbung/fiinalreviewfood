@@ -1,8 +1,9 @@
 import connection from '@/lib/db'
 
 // ดึงข้อมูล user ตาม id
-export async function GET(_, { params }) {
-  const id = Number(params.id)
+export async function GET(req) {
+  const url = new URL(req.url)
+  const id = Number(url.pathname.split('/').pop())
 
   try {
     const [rows] = await connection.query(
@@ -21,8 +22,10 @@ export async function GET(_, { params }) {
 }
 
 // แก้ไขข้อมูล avatar และ MBTI
-export async function PATCH(req, { params }) {
-  const id = Number(params.id)
+export async function PATCH(req) {
+  const url = new URL(req.url)
+  const id = Number(url.pathname.split('/').pop())
+
   const body = await req.json()
   const { avatar_url, MBTItype } = body
 

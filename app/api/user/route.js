@@ -1,9 +1,8 @@
-//list all users / add user
+// app/api/user/route.js
 import connection from '@/lib/db'
 
 export async function GET() {
   try {
-    const defaultAvatarUrl = 'https://res.cloudinary.com/dla8rkqp6/image/upload/v1745021698/uer5cx0m4e4xuwejbcxj.png'
     const [rows] = await connection.query(
       'SELECT id, username, email, password, avatar_url, MBTItype, Point FROM user'
     )
@@ -22,10 +21,8 @@ export async function POST(request) {
       return new Response(JSON.stringify({ error: 'Missing fields' }), { status: 400 })
     }
 
-    // ตั้งค่ารูปโปรไฟล์เริ่มต้น
     const defaultAvatarUrl = 'https://res.cloudinary.com/dla8rkqp6/image/upload/v1745021698/uer5cx0m4e4xuwejbcxj.png'
 
-    // เพิ่ม avatar_url ลงใน INSERT
     const [result] = await connection.query(
       `INSERT INTO user (username, email, password, MBTItype, Point, avatar_url) VALUES (?, ?, ?, ?, ?, ?)`,
       [username, email, password, MBTItype, 0, defaultAvatarUrl]
