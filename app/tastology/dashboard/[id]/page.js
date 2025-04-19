@@ -190,7 +190,11 @@ export default function DashboardPage() {
                                                 className="w-14 h-14 rounded-full object-cover"
                                             />
                                             <div>
-                                                <p className="text-sm font-semibold">{r.restaurant_name}</p>
+                                                <Link href={`/restaurant/${r.restaurant_id}`}>
+                                                    <p className="text-sm font-semibold text-pink-500 hover:underline cursor-pointer">
+                                                        {r.restaurant_name}
+                                                    </p>
+                                                </Link>
                                                 <p className="text-xs text-gray-500">{new Date(r.created_at).toLocaleDateString()}</p>
                                             </div>
                                         </div>
@@ -224,7 +228,11 @@ export default function DashboardPage() {
                                                 className="w-14 h-14 rounded-full object-cover"
                                             />
                                             <div>
-                                                <p className="text-sm font-semibold">{r.restaurant_name}</p>
+                                                <Link href={`/restaurant/${r.restaurant_id}`}>
+                                                    <p className="text-sm font-semibold text-pink-500 hover:underline cursor-pointer">
+                                                        {r.restaurant_name}
+                                                    </p>
+                                                </Link>
                                                 <p className="text-xs text-gray-500">{new Date(r.created_at).toLocaleDateString()}</p>
                                             </div>
                                         </div>
