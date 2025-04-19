@@ -1,32 +1,38 @@
-import connection from '@/lib/db';
+//list all users / add user
+import connection from '@/lib/db'
 
 export async function GET() {
   try {
-    const [rows] = await connection.query('SELECT id, username, email,password, avatar_url, MBTItype,Point FROM user');
-    return Response.json(rows);
+    const defaultAvatarUrl = 'https://res.cloudinary.com/dla8rkqp6/image/upload/v1745021698/uer5cx0m4e4xuwejbcxj.png'
+    const [rows] = await connection.query(
+      'SELECT id, username, email, password, avatar_url, MBTItype, Point FROM user'
+    )
+    return Response.json(rows)
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+    return new Response(JSON.stringify({ error: err.message }), { status: 500 })
   }
 }
+
 export async function POST(request) {
   try {
-    const body = await request.json();
-    const { username, email, password, MBTItype } = body;
-
-    console.log('Registering:', { username, email, password, MBTItype });
+    const body = await request.json()
+    const { username, email, password, MBTItype } = body
 
     if (!username || !email || !password || !MBTItype) {
-      return new Response(JSON.stringify({ error: 'Missing fields' }), { status: 400 });
+      return new Response(JSON.stringify({ error: 'Missing fields' }), { status: 400 })
     }
 
-    const [result] = await connection.query(
-      `INSERT INTO user (username, email, password, MBTItype, Point) VALUES (?, ?, ?, ?, ?)`,
-      [username, email, password, MBTItype, 0]
-    );
+    // ตั้งค่ารูปโปรไฟล์เริ่มต้น
+    const defaultAvatarUrl = 'https://res.cloudinary.com/dla8rkqp6/image/upload/v1745021698/uer5cx0m4e4xuwejbcxj.png'
 
-    return new Response(JSON.stringify({ message: 'User created', id: result.insertId }), { status: 201 });
+    // เพิ่ม avatar_url ลงใน INSERT
+    const [result] = await connection.query(
+      `INSERT INTO user (username, email, password, MBTItype, Point, avatar_url) VALUES (?, ?, ?, ?, ?, ?)`,
+      [username, email, password, MBTItype, 0, defaultAvatarUrl]
+    )
+
+    return new Response(JSON.stringify({ message: 'User created', id: result.insertId }), { status: 201 })
   } catch (err) {
-    console.error('Signup error:', err);
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+    return new Response(JSON.stringify({ error: err.message }), { status: 500 })
   }
 }

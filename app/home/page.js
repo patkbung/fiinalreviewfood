@@ -1,42 +1,72 @@
-async function getRestaurant() {
-    const res = await fetch('http://localhost:3000/api/restaurant', {
-        cache: 'no-store',
-    });
-    return res.json();
+'use client'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+
+export default function HomePage() {
+  const [user, setUser] = useState(null)
+  const [showLogout, setShowLogout] = useState(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      setUser(JSON.parse(storedUser))
+    }
+  }, [])
+  
+
+  const handleLogout = () => {
+    localStorage.removeItem('user')
+    setUser(null)
+    setShowLogout(false)
+    router.push('/home') // หรือ '/' ก็ได้
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-6">
+      {/* Header */}
+      <div className="flex justify-end">
+        {user ? (
+          <div
+            className="relative flex items-center gap-2 cursor-pointer"
+            onClick={() => router.push(`/tastology/dashboard/${user.id}`)}
+            onMouseEnter={() => setShowLogout(true)}
+            onMouseLeave={() => setShowLogout(false)}
+          >
+            <img
+              src={user.avatar_url}
+              alt="avatar"
+              className="w-10 h-10 rounded-full border-2 border-pink-300 hover:scale-105 transition"
+            />
+            <span className="text-pink-500 font-semibold">{user.username}</span>
+
+            {/* ปุ่ม Logout เมื่อ hover */}
+            {showLogout && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleLogout()
+                }}
+                className="absolute top-10 right-0 bg-red-400 text-white px-3 py-1 rounded shadow hover:bg-red-500"
+              >
+                Logout
+              </button>
+            )}
+          </div>
+        ) : (
+          <Link href="/sign-in">
+            <button className="bg-pink-400 text-white px-4 py-2 rounded hover:bg-pink-500">
+              Sign In
+            </button>
+          </Link>
+        )}
+      </div>
+
+      {/* Body content */}
+      <div className="mt-12 text-center text-2xl font-bold text-gray-600">
+        Welcome to Tastology 🍽️
+      </div>
+    </div>
+  )
 }
-
-export default async function home() {
-    const restaurant = await getRestaurant();
-
-
-    return (
-        <main className="p-4">
-            <div className="w-full h-[90px] bg-white rounded-[19px] shadow p-7 mb-100">
-                <h1 className="text-2xl font-bold">Testology</h1>
-            </div>
-
-            <h1 className="text-2xl font-bold mb-2">Recommend</h1>
-            <ul className="space-y-2">
-                {restaurant.map((r) => (
-                    <li
-                    key={r.id}
-                    className="bg-gray-100 p-4 rounded shadow-sm hover:bg-gray-200 flex items-center gap-4"
-                  >
-                    {/* รูปวงกลม */}
-                    <img
-                      src={r.image_url}
-                      alt={r.name}
-                      className="w-24 h-24 rounded-full object-cover"
-                    />
-                  
-                    {/* ชื่อร้าน */}
-                    <div>
-                      <p className="font-semibold text-xl">{r.name}</p>
-                    </div>
-                  </li>
-                  
-                ))}
-            </ul>
-        </main>
-    );
-}  

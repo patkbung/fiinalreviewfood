@@ -1,17 +1,18 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-
 
 export default function SignIn() {
   const router = useRouter();
   const [formData, setFormData] = useState({
+    username: '',
     email: '',
     password: '',
   });
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -20,21 +21,27 @@ export default function SignIn() {
     e.preventDefault();
     setError('');
 
-    // ดึงผู้ใช้ทั้งหมดจาก API
     const res = await fetch('http://localhost:3000/api/user');
     const users = await res.json();
 
-    // หาผู้ใช้ที่username+ password ตรงกัน
     const match = users.find(
       (u) => u.username === formData.username && u.password === formData.password
     );
 
     if (match) {
+      localStorage.setItem('user', JSON.stringify(match));
       router.push('/home');
     } else {
-      setError('username or password is incorrect.',);
+      setError('username or password is incorrect.');
     }
   };
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      router.push('/home');
+    }
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -69,6 +76,7 @@ export default function SignIn() {
               {showPassword ? '🙉' : '🙈'}
             </button>
           </div>
+
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
           <button
@@ -78,7 +86,6 @@ export default function SignIn() {
             Sign In
           </button>
 
-          {/* ถ้ายังไม่มีหละก็  มาsign up ซะ*/}
           <p className="mt-4 text-center text-sm">
             Don’t have an account?{' '}
             <Link href="/sign-up" className="text-red-500 hover:underline">
