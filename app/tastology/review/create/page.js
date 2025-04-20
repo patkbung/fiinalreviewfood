@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation' 
+import { useRouter } from 'next/navigation'
 //import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmitted }) {
@@ -12,6 +12,7 @@ export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmi
     const [rating, setRating] = useState(0)
     const [uploading, setUploading] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
+    const [showXp, setShowXp] = useState(null)
 
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files).slice(0, 3)
@@ -58,7 +59,7 @@ export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmi
             let xp = 0
             if (reviewText.trim()) xp += 5
             xp += uploadedUrls.length * 5
-            xp += rating // ⭐ รวมคะแนนดาวด้วย
+            //xp += rating // ⭐ รวมคะแนนดาวด้วย
 
             // ✅ ส่งข้อมูลแบบ JSON ไป backend
             const res = await fetch('http://localhost:3000/api/review/create', {
@@ -144,6 +145,11 @@ export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmi
                     >
                         {uploading ? 'กำลังอัปโหลด...' : 'ส่งรีวิว'}
                     </button>
+                    {showXp && (
+                        <div className="mt-4 text-green-600 text-center font-semibold animate-pulse">
+                            {showXp}
+                        </div>
+                    )}
 
                 </form>
             </div>
