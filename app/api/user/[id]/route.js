@@ -1,4 +1,4 @@
-import connection from '@/lib/db'
+import connection from 'lib/db.js'
 
 // ดึงข้อมูล user ตาม id
 export async function GET(req) {

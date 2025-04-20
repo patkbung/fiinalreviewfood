@@ -1,5 +1,5 @@
 // app/api/user/route.js
-import connection from '@/lib/db'
+import connection from 'lib/db.js'
 
 export async function GET() {
   try {

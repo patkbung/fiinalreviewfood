@@ -1,20 +1,13 @@
-import Link from "next/link";
+'use client'
+import TopBar from '@/components/TopBar'
 
-export default function adoutPage() {
+
+export default function AboutPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-11/12 max-w-3xl bg-white p-12 rounded-2xl shadow-xl text-center space-y-6">
-        <h1 className="text-5xl font-extrabold text-gray-900">About</h1>
-
-        <p className="text-xl text-gray-700">Something kub</p>
-
-        <Link
-          href="/home"
-          className="inline-block mt-6 px-6 py-3 bg-pink-300 text-white rounded-full shadow hover:bg-black transition"
-        >
-          Back to HomePage
-        </Link>
+    
+      <div className="p-6">
+        <h1 className="text-3xl font-bold text-pink-500">About Tastology</h1>
+        <p className="mt-4 text-gray-600">...เนื้อหาเกี่ยวกับเรา...</p>
       </div>
-    </div>
-  );
+  )
 }

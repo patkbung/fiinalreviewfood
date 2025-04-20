@@ -1,4 +1,4 @@
-import connection from '@/lib/db'
+import connection from 'lib/db.js'
 
 export async function POST(req) {
   const body = await req.json()

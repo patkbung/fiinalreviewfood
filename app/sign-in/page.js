@@ -30,7 +30,7 @@ export default function SignIn() {
 
     if (match) {
       localStorage.setItem('user', JSON.stringify(match));
-      router.push('/home');
+      router.push('tastology/home');
     } else {
       setError('username or password is incorrect.');
     }

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import TopBar from '@/components/TopBar'
 
 export default function DashboardPage() {
     const { id } = useParams()
@@ -109,24 +110,16 @@ export default function DashboardPage() {
 
     return (
         <div className="min-h-screen bg-gray-50 p-6 relative">
-            {/* โลโก้ Tastology มุมบนซ้าย */}
-            <Link
-                href="/home"
-                className="absolute top-6 left-6 text-3xl font-bold text-pink-400 hover:underline"
-            >
-                Tastology
-            </Link>
-
 
             <div className="min-h-screen bg-gray-50 p-6">
                 <div className="bg-white max-w-4xl mx-auto p-8 rounded-xl shadow-md">
                     <div className="flex gap-6 items-center">
-                    <div className="relative">
-  <img
-    src={user.avatar_url?.trim() ? user.avatar_url : '/default-avatar.png'}
-    alt="avatar"
-    className="w-28 h-28 rounded-full border-4 border-pink-300"
-  />
+                        <div className="relative">
+                            <img
+                                src={user.avatar_url?.trim() ? user.avatar_url : '/default-avatar.png'}
+                                alt="avatar"
+                                className="w-28 h-28 rounded-full border-4 border-pink-300"
+                            />
 
 
                             <button
@@ -168,7 +161,7 @@ export default function DashboardPage() {
                 {reviews.length === 0 && noReviewMsg ? (
                     <div className="text-center text-gray-500 mt-10">
                         <p>{noReviewMsg}</p>
-                        <Link href="/home">
+                        <Link href="/tastology/home">
                             <button className="mt-3 bg-pink-400 text-white px-4 py-2 rounded hover:bg-pink-500">
                                 เริ่มรีวิวเลย
                             </button>
@@ -318,5 +311,7 @@ export default function DashboardPage() {
 
                 )}
             </div>
-        </div>)
+        </div>
+
+    )
 }
