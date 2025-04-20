@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link' // ✅ แนะนำให้ใส่ไว้ถ้าใช้ <Link>
+import Link from 'next/link' 
 
 export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmitted }) {
   const router = useRouter()
@@ -22,7 +22,7 @@ export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmi
     e.preventDefault()
 
     if (!restaurantId) return alert('ไม่พบ restaurantId กรุณาลองใหม่')
-    if (rating === 0) return alert('กรุณาให้คะแนนดาวก่อนส่งรีวิว ⭐')
+    if (rating === 0) return alert('กรุณาให้คะแนนดาวก่อนส่งรีวิว ')
 
     setUploading(true)
 
@@ -89,12 +89,12 @@ export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmi
           ✕
         </button>
 
-        <h1 className="text-2xl font-bold text-pink-500 mb-4">รีวิวร้านอาหาร</h1>
+        <h1 className="text-2xl font-bold text-pink-500 mb-4">Review</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <textarea
             rows={4}
-            placeholder="พิมพ์รีวิวของคุณ..."
+            placeholder="Type..."
             className="w-full p-3 border rounded"
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
@@ -138,7 +138,7 @@ export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmi
             onChange={handleImageChange}
             className="block"
           />
-          <p className="text-sm text-gray-500">เลือกรูปได้สูงสุด 3 รูป</p>
+          <p className="text-sm text-gray-500">maximum 3 pictures</p>
 
           <button
             type="submit"
@@ -147,7 +147,7 @@ export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmi
             }`}
             disabled={uploading || rating === 0}
           >
-            {uploading ? 'กำลังอัปโหลด...' : 'ส่งรีวิว'}
+            {uploading ? 'Loading...' : 'submit'}
           </button>
         </form>
       </div>

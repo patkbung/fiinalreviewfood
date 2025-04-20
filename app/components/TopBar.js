@@ -24,14 +24,14 @@ export default function TopBar() {
   }
 
   return (
-    <div className="flex items-center justify-between px-6 py-4 bg-white shadow-md mb-4">
-      <Link href="/tastology/home" className="text-2xl font-bold text-pink-500">
+    <div className="flex items-center justify-between px-6 py-4 bg-pink-100 shadow-md mb-4">
+      <Link href="/tastology/home" className="text-2xl font-bold text-black">
         Tastology
       </Link>
 
       <div className="flex items-center space-x-4">
-        <Link href="/tastology/contact" className="text-gray-600 hover:text-pink-500">Contact</Link>
-        <Link href="/tastology/about" className="text-gray-600 hover:text-pink-500">About</Link>
+        <Link href="/tastology/contact" className="text-black hover:text-pink-500">Contact</Link>
+        <Link href="/tastology/about" className="text-black hover:text-pink-500">About</Link>
 
         {user ? (
           <div
@@ -43,7 +43,7 @@ export default function TopBar() {
               <img
                 src={user?.avatar_url?.trim() || '/default-avatar.png'}
                 alt="avatar"
-                className="w-9 h-9 rounded-full object-cover border border-pink-300"
+                className="w-10 h-10 rounded-full object-cover border border-pink-600"
               />
               <span className="text-pink-500 font-semibold">{user.username}</span>
             </Link>
@@ -52,7 +52,7 @@ export default function TopBar() {
             {showLogout && (
               <button
                 onClick={handleLogout}
-                className="absolute top-9 left-4 bg-pink-200 text-white text-sm px-3 py-1 rounded shadow hover:bg-pink-500 z-10"
+                className="absolute top-10 right-2 bg-pink-200 text-black text-sm px-3 py-1 rounded shadow hover:bg-pink-500 z-10"
               >
                 Logout
               </button>
