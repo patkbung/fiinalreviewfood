@@ -121,12 +121,14 @@ export default function DashboardPage() {
             <div className="min-h-screen bg-gray-50 p-6">
                 <div className="bg-white max-w-4xl mx-auto p-8 rounded-xl shadow-md">
                     <div className="flex gap-6 items-center">
-                        <div className="relative">
-                            <img
-                                src={user.avatar_url}
-                                alt="avatar"
-                                className="w-28 h-28 rounded-full border-4 border-pink-300"
-                            />
+                    <div className="relative">
+  <img
+    src={user.avatar_url?.trim() ? user.avatar_url : '/default-avatar.png'}
+    alt="avatar"
+    className="w-28 h-28 rounded-full border-4 border-pink-300"
+  />
+
+
                             <button
                                 className="block mt-2 text-sm text-pink-400 hover:underline mx-auto"
                                 onClick={() => setShowPopup(true)}
@@ -190,7 +192,7 @@ export default function DashboardPage() {
                                                 className="w-14 h-14 rounded-full object-cover"
                                             />
                                             <div>
-                                                <Link href={`/restaurant/${r.restaurant_id}`}>
+                                                <Link href={`/tastology/restaurant/${r.restaurant_id}`}>
                                                     <p className="text-sm font-semibold text-pink-500 hover:underline cursor-pointer">
                                                         {r.restaurant_name}
                                                     </p>
@@ -228,7 +230,7 @@ export default function DashboardPage() {
                                                 className="w-14 h-14 rounded-full object-cover"
                                             />
                                             <div>
-                                                <Link href={`/restaurant/${r.restaurant_id}`}>
+                                                <Link href={`/tastology/restaurant/${r.restaurant_id}`}>
                                                     <p className="text-sm font-semibold text-pink-500 hover:underline cursor-pointer">
                                                         {r.restaurant_name}
                                                     </p>
