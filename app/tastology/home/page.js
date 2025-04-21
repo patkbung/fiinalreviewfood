@@ -7,7 +7,7 @@ import TopBar from '@/components/TopBar'
 export default function HomePage() {
   const [user, setUser] = useState(null)
   const [mbtiRestaurants, setMbtiRestaurants] = useState([])
-  const [randomMBTI, setRandomMBTI] = useState('ENFP') // ✅ state เก็บ MBTI type ที่สุ่ม
+  const [randomMBTI, setRandomMBTI] = useState('ENFP') // เก็บ MBTI ที่สุ่มมา
   const [searchTerm, setSearchTerm] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const resultRef = useRef(null)
@@ -17,7 +17,7 @@ export default function HomePage() {
       .then(res => res.json())
       .then(data => {
         setMbtiRestaurants(data.restaurants)
-        setRandomMBTI(data.mbtiType)
+        setRandomMBTI(data.mbtiType) //  set MBTI ที่สุ่ม
       })
       .catch(err => console.error(' Fetch random MBTI restaurants failed', err))
   }, [])
@@ -42,7 +42,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <h1 className="text-9xl mask-b-from-neutral-400 text-pink-500 text-center mb-8">Welcome </h1>
+      <h1 className="text-9xl mask-b-from-neutral-400 text-pink-500 text-center mb-8">Welcome</h1>
 
       {/* 🔍 Search */}
       <form
@@ -61,7 +61,7 @@ export default function HomePage() {
         />
         <button
           type="submit"
-          className=" bg-pink-100 text-black px-4 py-2 rounded hover:bg-pink-300"
+          className="bg-pink-100 text-black px-4 py-2 rounded hover:bg-pink-300"
         >
           Search
         </button>
@@ -71,7 +71,7 @@ export default function HomePage() {
       {mbtiRestaurants.length > 0 && (
         <section className="mb-16">
           <h2 className="text-xl font-bold mb-4 text-black">
-            MBTI restaurants recommends
+            MBTI [{randomMBTI}] recommends
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {mbtiRestaurants.map((r, index) => (
@@ -98,7 +98,7 @@ export default function HomePage() {
       {/* 🔍 Search Results */}
       {searchTerm && (
         <section ref={resultRef} className="mt-8">
-          <h2 className=" text-4xl font-bold mb-4 text-black text-center">Search Results</h2>
+          <h2 className="text-4xl font-bold mb-4 text-black text-center">Search Results</h2>
           {searchResults.length === 0 ? (
             <p className="text-center text-gray-500">ไม่พบผลลัพธ์ที่คุณค้นหา</p>
           ) : (
