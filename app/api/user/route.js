@@ -1,7 +1,6 @@
 // app/api/user/route.js
 import connection from 'lib/db.js'
-
-export async function GET() {
+export async function GET() { //อันนี้อย่าหาทำ ส่งข้อมูล user มาทั้งหมด  เพื่อเอาไปใช้ใน sign in 
   try {
     const [rows] = await connection.query(
       'SELECT id, username, email, password, avatar_url, MBTItype, Point FROM user'
@@ -10,8 +9,8 @@ export async function GET() {
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), { status: 500 })
   }
-}
-
+ } 
+//สำหรับ this endpoint is used to create a new user in the database ช่ายยยย สำหรับ endpoint ให้ผู้ใช้สามารถสร้างบัญชีใหม่ในฐานข้อมูล ถูกต้องๆ
 export async function POST(request) {
   try {
     const body = await request.json()

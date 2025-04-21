@@ -35,7 +35,7 @@ export default function SignIn() {
       setError('username or password is incorrect.');
     }
   };
-
+//ถ้าเคย log in เข้ามาแล้วก็ข้ามไปหน้า home เลย
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {

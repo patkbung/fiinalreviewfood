@@ -48,7 +48,7 @@ export default function TopBar() {
               <span className="text-pink-500 font-semibold">{user.username}</span>
             </Link>
 
-            {/* Logout Button on hover */}
+            {/* Logout hover */}
             {showLogout && (
               <button
                 onClick={handleLogout}

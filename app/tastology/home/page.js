@@ -16,10 +16,10 @@ export default function HomePage() {
     fetch('/api/restaurant/mbti/random')
       .then(res => res.json())
       .then(data => {
-        setMbtiRestaurants(data.restaurants || [])
-        setRandomMBTI(data.mbtiType || 'ENFP')
+        setMbtiRestaurants(data.restaurants)
+        setRandomMBTI(data.mbtiType)
       })
-      .catch(err => console.error('❌ Fetch random MBTI restaurants failed', err))
+      .catch(err => console.error(' Fetch random MBTI restaurants failed', err))
   }, [])
 
   const handleSearch = async () => {
@@ -35,7 +35,7 @@ export default function HomePage() {
         resultRef.current?.scrollIntoView({ behavior: 'smooth' })
       }, 100)
     } catch (err) {
-      console.error('❌ Search failed', err)
+      console.error(' Search failed', err)
       setSearchResults([])
     }
   }
@@ -71,7 +71,7 @@ export default function HomePage() {
       {mbtiRestaurants.length > 0 && (
         <section className="mb-16">
           <h2 className="text-xl font-bold mb-4 text-black">
-            MBTI [{randomMBTI}] recommends
+            MBTI restaurants recommends
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {mbtiRestaurants.map((r, index) => (

@@ -74,7 +74,7 @@ export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmi
         alert('ส่งรีวิวไม่สำเร็จ')
       }
     } catch (err) {
-      console.error('❌ Submit error:', err)
+      console.error('Submit error:', err)
       alert('เกิดข้อผิดพลาดในการส่งรีวิว')
     } finally {
       setUploading(false)

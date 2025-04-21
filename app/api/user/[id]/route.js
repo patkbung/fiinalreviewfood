@@ -1,3 +1,5 @@
+//ข้อมูลส่วนตัวข้างบน
+
 import connection from 'lib/db.js'
 
 // ดึงข้อมูล user ตาม id
@@ -21,7 +23,7 @@ export async function GET(req) {
   }
 }
 
-// แก้ไขข้อมูล avatar และ MBTI
+// แก้ไขข้อมูล avatar MBTI
 export async function PATCH(req) {
   const url = new URL(req.url)
   const id = Number(url.pathname.split('/').pop())
