@@ -24,44 +24,48 @@ export default function TopBar() {
   }
 
   return (
-    <div className="flex items-center justify-between px-6 py-4 bg-pink-100 shadow-md mb-4">
-      <Link href="/tastology/home" className="text-2xl font-bold text-black">
-        Tastology
-      </Link>
+    <header className="sticky top-0 z-50 backdrop-blur-md shadow-sm">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+        {/* Logo */}
+        <Link href="/tastology/home" className="text-2xl font-bold text-gray-800 hover:text-pink-500 transition">
+          Tastology
+        </Link>
 
-      <div className="flex items-center space-x-4">
-        <Link href="/tastology/contact" className="text-black hover:text-pink-500">Contact</Link>
-        <Link href="/tastology/about" className="text-black hover:text-pink-500">About</Link>
+        {/* Nav */}
+        <nav className="flex items-center space-x-6">
+          <Link href="/tastology/contact" className="text-gray-700 hover:text-pink-500 transition">Contact</Link>
+          <Link href="/tastology/about" className="text-gray-700 hover:text-pink-500 transition">About</Link>
 
-        {user ? (
-          <div
-            className="relative flex items-center gap-2 cursor-pointer"
-            onMouseEnter={() => setShowLogout(true)}
-            onMouseLeave={() => setShowLogout(false)}
-          >
-            <Link href={`/tastology/dashboard/${user.id}`} className="flex items-center gap-2">
-              <img
-                src={user?.avatar_url?.trim() || '/default-avatar.png'}
-                alt="avatar"
-                className="w-10 h-10 rounded-full object-cover border border-pink-600"
-              />
-              <span className="text-pink-500 font-semibold">{user.username}</span>
-            </Link>
+          {user ? (
+            <div
+              className="relative flex items-center gap-2 cursor-pointer"
+              onMouseEnter={() => setShowLogout(true)}
+              onMouseLeave={() => setShowLogout(false)}
+            >
+              <Link href={`/tastology/dashboard/${user.id}`} className="flex items-center gap-2">
+                <img
+                  src={user?.avatar_url?.trim() || '/default-avatar.png'}
+                  alt="avatar"
+                  className="w-9 h-9 rounded-full object-cover border border-pink-500 shadow"
+                />
+                <span className="text-pink-600 font-medium hover:underline">{user.username}</span>
+              </Link>
 
-            {/* Logout hover */}
-            {showLogout && (
-              <button
-                onClick={handleLogout}
-                className="absolute top-10 right-2 bg-pink-200 text-black text-sm px-3 py-1 rounded shadow hover:bg-pink-500 z-10"
-              >
-                Logout
-              </button>
-            )}
-          </div>
-        ) : (
-          <Link href="/sign-in" className="text-pink-400 hover:underline">Sign In</Link>
-        )}
+              {/* Logout */}
+              {showLogout && (
+                <button
+                  onClick={handleLogout}
+                  className="absolute top-8 right-0 bg-white/90 text-black px-3 py-1 text-sm rounded-full shadow-md hover:bg-pink-200 transition"
+                >
+                  Logout
+                </button>
+              )}
+            </div>
+          ) : (
+            <Link href="/sign-in" className="text-pink-500 hover:underline">Sign In</Link>
+          )}
+        </nav>
       </div>
-    </div>
+    </header>
   )
 }

@@ -1,3 +1,5 @@
+// app/ layout
+import TopBar from '@/components/TopBar'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 
@@ -19,6 +21,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
       </body>

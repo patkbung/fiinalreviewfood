@@ -1,16 +1,29 @@
 'use client'
-import TopBar from '@/components/TopBar'
 
-export default function ContactPage() {
+export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="flex justify-center items-center py-16 px-4">
-        <div className="bg-white shadow-lg rounded-xl p-20 max-w-md w-full border border-pink-100">
-          <h1 className="text-3xl font-bold text-pink-500 mb-4 text-center">Contact Us</h1>
-          <p className="text-gray-700 text-center">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="https://res.cloudinary.com/dla8rkqp6/image/upload/v1745665258/gsbi2stkjf1nv3rjbn4z.avif"
+          alt="background"
+          className="w-full h-full object-cover brightness-90"
+        />
+        <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
+      </div>
+
+      {/* Main Content */}
+      <div className="relative z-10 min-h-screen flex flex-col">
+       
+        <div className="flex flex-1 justify-center items-center p-6">
+          <div className="w-full max-w-md bg-white/10 backdrop-blur-md p-10 rounded-3xl shadow-2xl border border-pink-200 text-white text-center">
+            <h1 className="text-4xl font-bold mb-6 text-black">Contact</h1>
+            <p className="text-white text-lg leading-relaxed">
             หากมีคำถาม หรือต้องการความช่วยเหลือ <br />
-            ติดต่อเราผ่านอีเมล: <span className="text-pink-600 font-medium">support@tastology.com</span>
-          </p>
+            ติดต่อเราผ่านอีเมล
+            </p>
+          </div>
         </div>
       </div>
     </div>

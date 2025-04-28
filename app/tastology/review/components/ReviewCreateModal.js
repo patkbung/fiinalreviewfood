@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link' 
+import Link from 'next/link'
 
 export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmitted }) {
   const router = useRouter()
@@ -22,7 +22,7 @@ export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmi
     e.preventDefault()
 
     if (!restaurantId) return alert('ไม่พบ restaurantId กรุณาลองใหม่')
-    if (rating === 0) return alert('กรุณาให้คะแนนดาวก่อนส่งรีวิว ')
+    if (rating === 0) return alert('กรุณาให้คะแนนดาวก่อนส่งรีวิว')
 
     setUploading(true)
 
@@ -82,37 +82,38 @@ export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmi
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-xl p-6 rounded-lg relative shadow-lg">
+    <div className="fixed inset-0 backdrop-blur-md bg-black/20 flex justify-center items-center z-50">
+      <div className="relative bg-white rounded-2xl p-6 shadow-2xl max-w-lg w-full">
         {/* ปุ่มกากบาท */}
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 text-xl">
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl">
           ✕
         </button>
 
-        <h1 className="text-2xl font-bold text-pink-500 mb-4">Review</h1>
+        <h1 className="text-2xl font-bold text-pink-500 mb-4 text-center">Review</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <textarea
             rows={4}
-            placeholder="Type..."
-            className="w-full p-3 border rounded"
+            placeholder="Type your review..."
+            className="w-full p-3 border rounded focus:outline-pink-300"
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
           />
+
           {xpMessage && (
-            <div className="text-green-500 text-center font-semibold mt-2 animate-bounce bg-white rounded shadow px-4 py-1">
+            <div className="text-pink-300 text-center font-semibold mt-2 animate-bounce bg-white rounded shadow px-4 py-1">
               {xpMessage}
             </div>
           )}
 
           {/* ดาวให้คะแนน */}
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center justify-center space-x-1">
             {[1, 2, 3, 4, 5].map((num) => (
               <button
                 type="button"
                 key={num}
                 onClick={() => setRating(num)}
-                className={num <= rating ? 'text-yellow-400 text-2xl' : 'text-gray-300 text-2xl'}
+                className={num <= rating ? 'text-yellow-400 text-3xl' : 'text-gray-300 text-3xl'}
               >
                 ★
               </button>
@@ -131,6 +132,7 @@ export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmi
               ))}
             </div>
           )}
+
           <input
             type="file"
             accept="image/*"
@@ -138,16 +140,16 @@ export default function ReviewCreateModal({ restaurantId, onClose, onReviewSubmi
             onChange={handleImageChange}
             className="block"
           />
-          <p className="text-sm text-gray-500">maximum 3 pictures</p>
+          <p className="text-sm text-gray-500">Maximum 3 pictures</p>
 
           <button
             type="submit"
-            className={`px-6 py-2 rounded text-white ${
+            className={`w-full px-6 py-2 rounded text-white ${
               rating > 0 ? 'bg-pink-500 hover:bg-pink-600' : 'bg-gray-400 cursor-not-allowed'
             }`}
             disabled={uploading || rating === 0}
           >
-            {uploading ? 'Loading...' : 'submit'}
+            {uploading ? 'Loading...' : 'Submit Review'}
           </button>
         </form>
       </div>

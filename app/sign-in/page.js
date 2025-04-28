@@ -1,4 +1,5 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -30,69 +31,78 @@ export default function SignIn() {
 
     if (match) {
       localStorage.setItem('user', JSON.stringify(match));
-      router.push('tastology/home');
+      router.push('/tastology/home');
     } else {
       setError('username or password is incorrect.');
     }
   };
-//ถ้าเคย log in เข้ามาแล้วก็ข้ามไปหน้า home เลย
+
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      router.push('/home');
+      router.push('/tastology/home');
     }
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-4xl font-bold mb-6 text-center">Sign In</h2>
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 z-0">
+        <img src="https://res.cloudinary.com/dla8rkqp6/image/upload/v1745665258/gsbi2stkjf1nv3rjbn4z.avif" alt="background" className="w-full h-full object-cover brightness-90" />
+        <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
+      </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="username"
-            name="username"
-            placeholder="username"
-            value={formData.username}
-            onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded"
-            required
-          />
-          <div className="relative">
+      {/* Main Content */}
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
+        <div className="w-full max-w-md bg-white/10 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-pink-200 text-white">
+          <h2 className="text-4xl font-bold mb-6 text-center text-black">Sign In</h2>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             <input
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              placeholder="Password"
-              value={formData.password}
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formData.username}
               onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded pr-10"
+              className="w-full p-3 border border-gray-300 rounded-xl"
               required
             />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-xl pr-10"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-2xl"
+              >
+                {showPassword ? '🙉' : '🙈'}
+              </button>
+            </div>
+
+            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+
             <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl"
+              type="submit"
+              className="w-full bg-pink-400 text-white p-3 rounded-xl hover:bg-black transition"
             >
-              {showPassword ? '🙉' : '🙈'}
+              Sign In
             </button>
-          </div>
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-
-          <button
-            type="submit"
-            className="w-full bg-pink-300 text-white p-3 rounded hover:bg-black transition"
-          >
-            Sign In
-          </button>
-
-          <p className="mt-4 text-center text-sm">
-            Don’t have an account?{' '}
-            <Link href="/sign-up" className="text-red-500 hover:underline">
-              Sign up
-            </Link>
-          </p>
-        </form>
+            <p className="mt-4 text-center text-sm">
+              Don’t have an account?{' '}
+              <Link href="/sign-up" className="text-black hover:underline">
+                Sign up
+              </Link>
+            </p>
+          </form>
+        </div>
       </div>
     </div>
   );
