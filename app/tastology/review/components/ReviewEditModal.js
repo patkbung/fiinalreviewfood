@@ -47,7 +47,7 @@ export default function ReviewEditModal({ review, onClose, onReviewUpdated, onRe
       
           const data = await res.json()
           if (data.secure_url) {
-            uploadedUrls.push(data.secure_url) // แค่ push รูปใหม่เข้าไป ไม่ลบรูปเก่า
+            uploadedUrls.push(data.secure_url) // แค่ push รูปใหม่เข้าไป ไม่ลบรูปเก่า ใช่ ตอนแรกจะลบทำไม ไม่เข้าใจ
           }
         }
       }
@@ -136,7 +136,7 @@ export default function ReviewEditModal({ review, onClose, onReviewUpdated, onRe
             </div>
           )}
 
-          {/* รูปใหม่ (ที่เลือกมาใหม่) */}
+          {/* รูป(ที่เลือกมาใหม่) */}
           {newImages.length > 0 && (
             <div className="grid grid-cols-3 gap-2 mt-2">
               {newImages.map((file, i) => (

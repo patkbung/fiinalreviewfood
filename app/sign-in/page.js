@@ -5,10 +5,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function SignIn() {
-  const router = useRouter();
+  const router = useRouter(); //sign in เสร็จเปลี่ยนหน้า ไป home ใช้อันนี้
   const [formData, setFormData] = useState({
+    //email: '',
     username: '',
-    email: '',
     password: '',
   });
   const [error, setError] = useState('');
@@ -17,32 +17,42 @@ export default function SignIn() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+//เอาไปเช็คจ้าาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาา
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
+  try {
+    const res = await fetch('http://localhost:3000/api/user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'signin',
+        username: formData.username,
+        password: formData.password,
+      }),
+    });
 
-    const res = await fetch('http://localhost:3000/api/user');
-    const users = await res.json();
+    const result = await res.json();
 
-    const match = users.find(
-      (u) => u.username === formData.username && u.password === formData.password
-    );
-
-    if (match) {
-      localStorage.setItem('user', JSON.stringify(match));
+    if (res.ok) {
+      localStorage.setItem('user', JSON.stringify(result));
       router.push('/tastology/home');
     } else {
-      setError('username or password is incorrect.');
+      setError(result.error || 'Sign in failed.');
     }
-  };
+  } catch (err) {
+    console.error('Sign in error:', err);
+    setError('Something went wrong.');
+  }
+};
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      router.push('/tastology/home');
-    }
-  }, []);
+useEffect(() => {
+  const storedUser = localStorage.getItem('user');
+  if (storedUser) {
+    router.push('/tastology/home');
+  }
+}, []);
 
   return (
     <div className="relative min-h-screen overflow-hidden">

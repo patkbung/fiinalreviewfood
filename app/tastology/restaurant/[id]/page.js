@@ -5,11 +5,12 @@ import { useParams } from 'next/navigation'
 import ReviewCreateModal from '../../review/components/ReviewCreateModal'
 
 export default function RestaurantDetailPage() {
-  const { id } = useParams()
-  const [restaurant, setRestaurant] = useState(null)
-  const [reviews, setReviews] = useState([])
-  const [showModal, setShowModal] = useState(false)
+  const { id } = useParams() //id ของร้านนั่นแหละ
+  const [restaurant, setRestaurant] = useState(null) //ข้อมูลร้าน
+  const [reviews, setReviews] = useState([]) //รีวิวของร้าน
+  const [showModal, setShowModal] = useState(false) //ที่เอาไว้เขียนรีวิวอะ
 
+  //ข้อมูลร้าน
   const fetchRestaurant = async () => {
     const res = await fetch(`/api/restaurant/${id}`)
     if (res.ok) {
@@ -17,7 +18,7 @@ export default function RestaurantDetailPage() {
       setRestaurant(data)
     }
   }
-
+  //ข้อมูลรีวิว
   const fetchReviews = async () => {
     const res = await fetch(`/api/review/restaurant/${id}`)
     if (res.ok) {
@@ -47,7 +48,7 @@ export default function RestaurantDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
-      {/* Banner Section */}
+      {/* Banner  */}
       <div
         className="relative h-[400px] w-full bg-fixed bg-cover bg-center"
         style={{
@@ -80,6 +81,7 @@ export default function RestaurantDetailPage() {
 <div className="max-w-6xl mx-auto mt-16 px-4">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-8">Customer Reviews</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          
           {reviews.map((r) => (
             <div key={r.id} className="relative bg-white rounded-2xl shadow-md hover:shadow-xl p-5 flex flex-col">
               <span className="absolute top-2 right-2 bg-pink-400 text-white text-xs px-2 py-1 rounded">

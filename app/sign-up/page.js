@@ -21,34 +21,40 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
+  
     const { email, username, password, MBTItype } = formData;
+  
     if (!email || !username || !password || !MBTItype) {
       setError('Please fill out all fields.');
       return;
     }
-
-    const checkRes = await fetch('http://localhost:3000/api/user');
-    const users = await checkRes.json();
-    const emailExists = users.some((u) => u.email === email);
-    if (emailExists) {
-      setError('This email is already registered.');
-      return;
-    }
-
-    const res = await fetch('http://localhost:3000/api/user', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-
-    if (res.ok) {
-      router.push('/sign-in');
-    } else {
-      setError('Sign-up failed. Please try again.');
+  
+    try {
+      const res = await fetch('http://localhost:3000/api/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'signup',
+          email,
+          username,
+          password,
+          MBTItype,
+        }),
+      });
+  
+      const result = await res.json();
+  
+      if (res.ok) {
+        router.push('/sign-in');
+      } else {
+        setError(result.error || 'Sign-up failed. Please try again.');
+      }
+    } catch (err) {
+      console.error('Sign up error:', err);
+      setError('Something went wrong.');
     }
   };
-
+  
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Background */}
