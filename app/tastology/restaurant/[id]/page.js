@@ -10,6 +10,13 @@ export default function RestaurantDetailPage() {
   const [reviews, setReviews] = useState([]) //รีวิวของร้าน
   const [showModal, setShowModal] = useState(false) //ที่เอาไว้เขียนรีวิวอะ
 
+  useEffect(() => {
+    if (id) {
+      fetchRestaurant()
+      fetchReviews()
+    }
+  }, [id])
+
   //ข้อมูลร้าน
   const fetchRestaurant = async () => {
     const res = await fetch(`/api/restaurant/${id}`)
@@ -26,24 +33,20 @@ export default function RestaurantDetailPage() {
       setReviews(data)
     }
   }
-
-  useEffect(() => {
-    if (id) {
-      fetchRestaurant()
-      fetchReviews()
-    }
-  }, [id])
-
-  const handleReviewSubmitted = async () => {
-    await fetchReviews()
-  }
-
-  if (!restaurant) {
+//ยังโหลดร้านไม่เสร็จ รอแปบนะจ๊ะ
+  if (!restaurant) { 
     return (
       <div className="min-h-screen flex justify-center items-center bg-gray-100 text-gray-500">
         Loading restaurant...
       </div>
     )
+  }
+
+
+ //ส่งรีวิวเสร็จแล้ว ก็จะเรียก onReviewSubmitted แล้วมาทำงานที่ฟังก์ชันนี้ handleReviewSubmitted  ก็คือ โหลดรีวิวใหม่ จาก API 
+ // โหลดรีวิวล่าสุดจาก backend
+  const handleReviewSubmitted = async () => {
+    await fetchReviews()
   }
 
   return (
@@ -114,12 +117,14 @@ export default function RestaurantDetailPage() {
         </div>
       </div>
 
-      {/* Modal  ไปที่ edit model ลิ้งไป*/}
+
+      {/* Modal  ไปที่ model ลิ้งไป*/}
       {showModal && (
         <ReviewCreateModal
           restaurantId={id}
           onClose={() => setShowModal(false)}
-          onReviewSubmitted={handleReviewSubmitted}
+          onReviewSubmitted={handleReviewSubmitted} 
+//ส่งรีวิวเสร็จแล้ว ก็จะเรียก onReviewSubmitted แล้วมาทำงานที่ฟังก์ชันนี้ handleReviewSubmitted  ก็คือ โหลดรีวิวใหม่ จาก API 
         />
       )}
     </div>

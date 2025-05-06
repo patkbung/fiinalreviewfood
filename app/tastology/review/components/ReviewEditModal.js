@@ -12,21 +12,23 @@ export default function ReviewEditModal({ review, onClose, onReviewUpdated, onRe
     review.image3_url
   ].filter(Boolean))
   const [newImages, setNewImages] = useState([])
-
+//----------------------เลือกรูปใหม่-----------------------------
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files).slice(0, 3)
     setNewImages(files)
   }
-
+//--------------------ลบรุปเก่าจากคลาวออกจาก ตำแหน่งตาม index-----
   const handleRemoveImage = (index) => {
-    const updatedImages = images.filter((_, i) => i !== index)
+    const updatedImages = images.filter((_, i) => i !== index)                 
     setImages(updatedImages)
   }
+//-------------------ลบรุแใหม่ที่เพิ่ง เอาเข้ามาเมื่อกี้--------------------------------
 
   const handleRemoveNewImage = (index) => {
     const updatedNewImages = newImages.filter((_, i) => i !== index)
     setNewImages(updatedNewImages)
   }
+//------------ถ้ามีถ้ามี newImages ก็---------------------------------------
 
   const handleSave = async (e) => {
     e.preventDefault()
@@ -44,15 +46,15 @@ export default function ReviewEditModal({ review, onClose, onReviewUpdated, onRe
             method: 'POST',
             body: formData
           })
-      
+      //-------------------------- response กลับมา แปลงเป็น JSON ---------------เอาsecure_url---เก็บไว้ที่ uploadedUrls----------
           const data = await res.json()
           if (data.secure_url) {
-            uploadedUrls.push(data.secure_url) // แค่ push รูปใหม่เข้าไป ไม่ลบรูปเก่า ใช่ ตอนแรกจะลบทำไม ไม่เข้าใจ
+            uploadedUrls.push(data.secure_url) // แค่ push รูปใหม่เข้าไป ไม่ลบรูปเก่า 
           }
         }
       }
       
-
+//อัพเดทรีวิวใหม่ไปยัง API นี้จ้า
       await fetch(`http://localhost:3000/api/review/${review.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -74,6 +76,7 @@ export default function ReviewEditModal({ review, onClose, onReviewUpdated, onRe
       setUploading(false)
     }
   }
+//---------------------------------------------------
 
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to delete this review?')) return
@@ -83,6 +86,7 @@ export default function ReviewEditModal({ review, onClose, onReviewUpdated, onRe
     onReviewDeleted()
     onClose()
   }
+//---------------------------------------------------
 
   return (
     <div className="fixed inset-0 backdrop-blur-md bg-black/20 flex justify-center items-center z-50">

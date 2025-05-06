@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import db from 'lib/db.js'
 
-// ✅ ลบรีวิว
+//  ลบรีวิว
 export async function DELETE(_, { params }) {
   const { id } = params
 
@@ -10,19 +10,17 @@ export async function DELETE(_, { params }) {
       'DELETE FROM review WHERE id = ?',
       [id]
     )
-
     if (result.affectedRows === 0) {
       return NextResponse.json({ error: 'Review not found' }, { status: 404 })
     }
-
     return NextResponse.json({ success: true })
   } catch (err) {
-    console.error('❌ Review Delete Error:', err)
+    console.error(' Review Delete Error:', err)
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }
 
-// ✅ แก้ไขรีวิว
+//  แก้ไขรีวิว
 export async function PATCH(req, { params }) {
   const { id } = params
   const body = await req.json()
@@ -41,7 +39,7 @@ export async function PATCH(req, { params }) {
 
     return NextResponse.json({ success: true })
   } catch (err) {
-    console.error('❌ Review Update Error:', err)
+    console.error(' Review Update Error:', err)
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }

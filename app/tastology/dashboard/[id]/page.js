@@ -23,7 +23,8 @@ export default function DashboardPage() {
     'ESTP', 'ESFP', 'ENFP', 'ENTP',
     'ESTJ', 'ESFJ', 'ENFJ', 'ENTJ'
   ]
-
+  //---------------------------------------------------------------------------------
+//ดึงข้อมมูล user มา
   useEffect(() => {
     const fetchUser = async () => {
       const res = await fetch(`http://localhost:3000/api/user/${id}`);
@@ -33,10 +34,15 @@ export default function DashboardPage() {
     if (id) fetchUser();
   }, [id]);
 
+  //โหลดรีวิวของ user นั้นมาด้วย
+  useEffect(() => {
+    if (id) fetchReviews();
+  }, [id]);
+ 
   const fetchReviews = async () => {
     const res = await fetch(`http://localhost:3000/api/review/user/${id}`);
     const data = await res.json();
-
+//เรียงลำดับจาก ล่าสุด -> เก่าสุด
     if (data.reviews && data.reviews.length > 0) {
       const sortedReviews = data.reviews.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       setReviews(sortedReviews);
@@ -46,11 +52,7 @@ export default function DashboardPage() {
       setNoReviewMsg(data.message || 'ยังไม่มีรีวิว');
     }
   };
-
-  useEffect(() => {
-    if (id) fetchReviews();
-  }, [id]);
-
+//----------------------------------------------------------------------------
   const handleFileChange = async (e) => {
     const file = e.target.files[0]
     if (!file) return
@@ -75,7 +77,7 @@ export default function DashboardPage() {
       alert('Upload failed')
     }
   }
-
+//----------------------------------------------------------------------------
   const handleSaveAll = async () => {
     const updatedData = {
       avatar_url: previewUrl || user.avatar_url,
@@ -93,7 +95,7 @@ export default function DashboardPage() {
     setShowPopup(false)
     setShowEditMBTI(false)
   }
-
+//--------------------โหลดข้อมูลใหม่ รึเฟรชข้อมุลใหม่--------------------------------------------------------
   const handleReviewUpdated = () => {
     fetchReviews();
   }
@@ -101,7 +103,7 @@ export default function DashboardPage() {
   const handleReviewDeleted = () => {
     fetchReviews();
   }
-
+//---------------------------------------------------------------------------
   if (!user) return <div className="p-6 text-center">Loading...</div>
 
   const getBadge = (point) => {
@@ -140,109 +142,113 @@ export default function DashboardPage() {
           </div>
         </div>
 
-       {/* Reviews Section */}
-<div className="mt-10">
-  {reviews.length === 0 ? (
-    <div className="text-center text-gray-500">
-      <p className="text-xl mb-4">ยังไม่มีรีวิว เริ่มรีวิวเลย</p>
-      <Link href="/tastology/home">
-        <button className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-2 rounded-full">
-          เริ่มรีวิว
-        </button>
-      </Link>
-    </div>
-  ) : (
-    <>
-      <h2 className="text-3xl font-semibold mb-4 text-black">All your reviews</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {reviews.map((r) => (
-          <div key={r.id} className="relative bg-white p-4 rounded-lg shadow-md">
-            <span className="absolute top-2 right-2 bg-pink-400 text-white text-xs px-2 py-1 rounded">{r.rating}/5</span>
-            <div className="flex gap-2 mb-2">
-              <img src={r.restaurant_image || '/default-restaurant.png'} alt="restaurant" className="w-14 h-14 rounded-full object-cover" />
-              <div>
-                <Link href={`/tastology/restaurant/${r.restaurant_id}`}>
-                  <p className="text-sm font-semibold text-pink-500 hover:underline cursor-pointer">{r.restaurant_name}</p>
-                </Link>
-                <p className="text-xs text-gray-500">{new Date(r.created_at).toLocaleDateString()}</p>
-              </div>
+        {/* Reviews Section */}
+        <div className="mt-10">
+          {reviews.length === 0 ? (
+            <div className="text-center text-gray-500">
+              <p className="text-xl mb-4">ยังไม่มีรีวิว เริ่มรีวิวเลย</p>
+              <Link href="/tastology/home">
+                <button className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-2 rounded-full">
+                  เริ่มรีวิว
+                </button>
+              </Link>
             </div>
-            <p className="text-sm mb-2">{r.review_text}</p>
-            <div className="grid grid-cols-3 gap-1 mb-2">
-              {[r.image1_url, r.image2_url, r.image3_url].filter(Boolean).map((img, i) => (
-                <img key={i} src={img} alt="review" className="w-full h-20 object-cover rounded" />
-              ))}
-            </div>
-            <button onClick={() => setEditingReview(r)} className="w-full mt-2 bg-pink-500 text-white py-2 rounded hover:bg-pink-600">Edit Review</button>
-          </div>
-        ))}
-      </div>
-    </>
-  )}
-</div>
+          ) : (
+            <>
+              <h2 className="text-3xl font-semibold mb-4 text-black">All your reviews</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
+
+
+                {reviews.map((r) => (
+                  <div key={r.id} className="relative bg-white p-4 rounded-lg shadow-md">
+                    <span className="absolute top-2 right-2 bg-pink-400 text-white text-xs px-2 py-1 rounded">{r.rating}/5</span>
+                    <div className="flex gap-2 mb-2">
+                      <img src={r.restaurant_image || '/default-restaurant.png'} alt="restaurant" className="w-14 h-14 rounded-full object-cover" />
+                      <div>
+                        <Link href={`/tastology/restaurant/${r.restaurant_id}`}>
+                          <p className="text-sm font-semibold text-pink-500 hover:underline cursor-pointer">{r.restaurant_name}</p>
+                        </Link>
+                        <p className="text-xs text-gray-500">{new Date(r.created_at).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                    <p className="text-sm mb-2">{r.review_text}</p>
+                    <div className="grid grid-cols-3 gap-1 mb-2">
+                      {[r.image1_url, r.image2_url, r.image3_url].filter(Boolean).map((img, i) => (
+                        <img key={i} src={img} alt="review" className="w-full h-20 object-cover rounded" />
+                      ))}
+                    </div>
+                    <button onClick={() => setEditingReview(r)} className="w-full mt-2 bg-pink-500 text-white py-2 rounded hover:bg-pink-600">
+                      Edit Review
+                      </button>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
 
         {showPopup && (
-  <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex justify-center items-center">
-    <div className="bg-white p-6 rounded-lg shadow-md w-96">
-      <h3 className="text-lg font-bold mb-4">Change Profile Image</h3>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        className="w-full p-2 border rounded mb-4"
-      />
-      {previewUrl && (
-        <img src={previewUrl} alt="Preview" className="w-24 h-24 rounded-full mx-auto mb-4" />
-      )}
-      <div className="flex justify-end gap-2">
-        <button
-          className="bg-gray-200 text-gray-700 px-4 py-2 rounded"
-          onClick={() => setShowPopup(false)}
-        >
-          Cancel
-        </button>
-        <button
-          className="bg-pink-400 text-white px-4 py-2 rounded hover:bg-pink-500"
-          onClick={handleSaveAll}
-        >
-          Save Change
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+          <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex justify-center items-center">
+            <div className="bg-white p-6 rounded-lg shadow-md w-96">
+              <h3 className="text-lg font-bold mb-4">Change Profile Image</h3>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="w-full p-2 border rounded mb-4"
+              />
+              {previewUrl && (
+                <img src={previewUrl} alt="Preview" className="w-24 h-24 rounded-full mx-auto mb-4" />
+              )}
+              <div className="flex justify-end gap-2">
+                <button
+                  className="bg-gray-200 text-gray-700 px-4 py-2 rounded"
+                  onClick={() => setShowPopup(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-pink-400 text-white px-4 py-2 rounded hover:bg-pink-500"
+                  onClick={handleSaveAll}
+                >
+                  Save Change
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
-{showEditMBTI && (
-  <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex justify-center items-center">
-    <div className="bg-white p-6 rounded-lg shadow-md w-80">
-      <h3 className="text-lg font-bold mb-4">Edit MBTI Type</h3>
-      <select
-        className="w-full p-2 border rounded mb-4"
-        value={user.MBTItype}
-        onChange={(e) => setUser({ ...user, MBTItype: e.target.value })}
-      >
-        {MBTItypes.map((type) => (
-          <option key={type} value={type}>{type}</option>
-        ))}
-      </select>
-      <div className="flex justify-end gap-2">
-        <button
-          className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300"
-          onClick={() => setShowEditMBTI(false)}
-        >
-          Cancel
-        </button>
-        <button
-          className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600"
-          onClick={handleSaveAll}
-        >
-          Save
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+        {showEditMBTI && (
+          <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex justify-center items-center">
+            <div className="bg-white p-6 rounded-lg shadow-md w-80">
+              <h3 className="text-lg font-bold mb-4">Edit MBTI Type</h3>
+              <select
+                className="w-full p-2 border rounded mb-4"
+                value={user.MBTItype}
+                onChange={(e) => setUser({ ...user, MBTItype: e.target.value })}
+              >
+                {MBTItypes.map((type) => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
+              </select>
+              <div className="flex justify-end gap-2">
+                <button
+                  className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300"
+                  onClick={() => setShowEditMBTI(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600"
+                  onClick={handleSaveAll}
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
 
         {editingReview && (
